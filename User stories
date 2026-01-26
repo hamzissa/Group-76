@@ -10,3 +10,6 @@ George - As a Student, I want to view a list of all available IBM SkillsBuild Co
 
 Record Completion (Simulate Integration with IBM)
 Rayn- As a Student, I want the app to record when I complete an IBM SkillsBuild Course so that I can view a history of my learning
+
+Record Start Times
+Vinay - As a Student, I want the app to record when I begin an IBM SkillsBuild Course so that I can pause and resume the courses
