@@ -8,3 +8,5 @@ Dwain - As a User, I want to register and login, so that I can have a personalis
 View Dashboard
 George - As a Student, I want to view a list of all available IBM SkillsBuild Courses so that I can be directed to and start new learning courses
 
+Record Completion (Simulate Integration with IBM)
+Rayn- As a Student, I want the app to record when I complete an IBM SkillsBuild Course so that I can view a history of my learning
