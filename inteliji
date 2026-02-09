@@ -70,3 +70,6 @@ Keychain has an old password/token saved → do step 2 again.
 Token leaked
 
 Revoke it immediately in GitLab and create a new one.
+
+MUST KNOW
+KEEP YOUR TOKEN SAFE IN NOTES AS YOULL NEED IT AGAIN
