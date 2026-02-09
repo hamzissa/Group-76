@@ -1,0 +1,72 @@
+GitLab setup (Mac) — clone repo
+put into gpt and it will help
+1) Create a Personal Access Token (PAT)
+
+Open GitLab in browser (campus GitLab)
+
+Go to User Settings → Personal access tokens
+
+Create token with scopes:
+
+✅ read_repository
+
+✅ write_repository
+
+Copy the token somewhere safe (don’t share it)
+
+Don’t tick everything. Don’t post the token in chats.
+
+2) Clear any old saved credentials (Keychain)
+
+Open Terminal and run:
+
+printf "protocol=https\nhost=campus.cs.le.ac.uk\n" | git credential-osxkeychain erase
+printf "protocol=https\nhost=hi69@campus.cs.le.ac.uk\n" | git credential-osxkeychain erase
+
+
+(Optional but useful)
+
+git config --global credential.helper osxkeychain
+
+3) Clone the repo into your folder
+
+Go to where you keep projects (example: ~/Intelji):
+
+cd ~/Intelji
+git clone https://campus.cs.le.ac.uk/gitlab/co2303_2026/Group-76.git
+
+
+When prompted:
+
+Username: your GitLab username (or full uni email)
+
+Password: paste the token (PAT), not your normal password
+
+4) Checkout the correct branch (if needed)
+cd Group-76
+git branch -a
+git checkout Project_main
+
+
+If Project_main isn’t local:
+
+git checkout -b Project_main origin/Project_main
+
+5) Add your code, commit, push
+
+Copy your Spring Boot project files into the repo folder, then:
+
+git add .
+git commit -m "Add Spring Boot starter project"
+git push -u origin Project_main
+
+Common issues
+“HTTP Basic: Access denied”
+
+You used your normal password instead of the token, OR
+
+Keychain has an old password/token saved → do step 2 again.
+
+Token leaked
+
+Revoke it immediately in GitLab and create a new one.
