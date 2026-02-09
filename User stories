@@ -5,11 +5,11 @@ hamzah - As a student, I want to earn XP when I complete a course so that my pro
 Login and Register
 Dwain - As a User, I want to register and login, so that I can have a personalised experience
 
-View Dashboard
-George - As a Student, I want to view a list of all available IBM SkillsBuild Courses so that I can be directed to and start new learning courses
-
 Record Completion (Simulate Integration with IBM)
-Rayn- As a Student, I want the app to record when I complete an IBM SkillsBuild Course so that I can view a history of my learning
+George - As a Student, I want the app to record when I complete an IBM SkillsBuild Course so that I can view a history of my learning
+
+View Dashboard
+Rayn - As a Student, I want to view a list of all available IBM SkillsBuild Courses so that I can be directed to and start new learning courses
 
 Record Start Times
 Vinay - As a Student, I want the app to record when I begin an IBM SkillsBuild Course so that I can pause and resume the courses
