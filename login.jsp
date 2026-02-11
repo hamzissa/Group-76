@@ -109,7 +109,6 @@
 
 <div class="container">
 
-    <!-- LOGIN FORM -->
     <div id="loginForm">
         <h2>Login</h2>
 
@@ -129,7 +128,6 @@
         </div>
     </div>
 
-    <!-- REGISTER FORM -->
     <div id="registerForm" class="hidden">
         <h2>Register</h2>
 
