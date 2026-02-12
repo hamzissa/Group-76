@@ -109,17 +109,21 @@
 
 <div class="container">
 
+    <!-- LOGIN FORM -->
     <div id="loginForm">
         <h2>Login</h2>
 
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Password" required>
+        <form action="login" method="post">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
 
-        <div class="forgot">
-            <a href="#">Forgot Password?</a>
-        </div>
+            <div class="forgot">
+                <a href="#">Forgot Password?</a>
+            </div>
 
-        <button>Login</button>
+            <button type="submit">Login</button>
+        </form>
+
         <button class="google-btn">Continue with Google</button>
 
         <div class="link">
@@ -128,14 +132,18 @@
         </div>
     </div>
 
+    <!-- REGISTER FORM -->
     <div id="registerForm" class="hidden">
         <h2>Register</h2>
 
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Password" required>
-        <input type="password" placeholder="Confirm Password" required>
+        <form action="register" method="post">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm" placeholder="Confirm Password" required>
 
-        <button>Create Account</button>
+            <button type="submit">Create Account</button>
+        </form>
+
         <button class="google-btn">Sign up with Google</button>
 
         <div class="link">
