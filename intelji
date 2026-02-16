@@ -86,7 +86,7 @@ cd ~/Intelji/Group-76
 Fetch + switch to Project_main:
 
 git fetch origin
-git checkout first-step
+git checkout dashboard
 git pull
 
 shamim testing GIT commit
