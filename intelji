@@ -85,7 +85,7 @@ cd ~/Intelji/Group-76
 
 Fetch + switch to Project_main:
 
-git fetch --all
+git fetch origin
 git checkout first-step
 git pull
 
