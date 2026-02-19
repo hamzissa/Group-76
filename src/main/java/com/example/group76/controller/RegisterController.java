@@ -1,39 +1,29 @@
-package controller;
+package com.example.group76.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-import model.User;
-import java.io.IOException;
+import com.example.group76.model.User;
+import com.example.group76.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+@Controller
+public class RegisterController {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @Autowired
+    private UserRepository userRepository;
 
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String confirmPassword = request.getParameter("confirm");
-
-        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-            request.setAttribute("error", "All fields are required for registration.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            return;
+    @PostMapping("/register")
+    public String handleRegister(@RequestParam String email, 
+                                 @RequestParam String password, 
+                                 @RequestParam String confirm) {
+        if (password.equals(confirm)) {
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            userRepository.save(user);
+            return "redirect:/login";
         }
-
-        if (!password.equals(confirmPassword)) {
-            request.setAttribute("error", "Passwords do not match!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            return;
-        }
-
-        User newUser = new User(email, password);
-
-        System.out.println("Registering user: " + newUser.getEmail());
-
-        request.setAttribute("message", "Registration successful! Please login.");
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        return "redirect:/login?error=mismatch";
     }
 }

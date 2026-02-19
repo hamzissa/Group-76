@@ -1,31 +1,35 @@
-package controller;
+package com.example.group76.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-import model.User;
-import java.io.IOException;
+import com.example.group76.model.User;
+import com.example.group76.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@Controller
+public class LoginController {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @Autowired
+    private UserRepository userRepository;
 
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login"; 
+    }
 
-        User userAttempt = new User(email, password);
-
-        if ("test@example.com".equals(userAttempt.getEmail()) && "1234".equals(userAttempt.getPassword())) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", userAttempt);
-            response.sendRedirect("home.jsp");
-        } else {
-            request.setAttribute("error", "Invalid login credentials");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+    @PostMapping("/login")
+    public String handleLogin(@RequestParam String email, @RequestParam String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getPassword().equals(password)) {
+            return "redirect:/dashboard";
         }
+        return "redirect:/login?error=true";
+    }
+
+    @GetMapping("/dashboard")
+    public String showDashboard() {
+        return "dashboard";
     }
 }
-
