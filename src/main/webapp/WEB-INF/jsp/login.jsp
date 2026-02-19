@@ -105,8 +105,12 @@
 <div class="container">
     <div id="loginWrapper">
         <h2>Login</h2>
-        <div id="sBox"></div>
-        <div id="eBox"></div>
+        <% 
+            Object errorObj = request.getAttribute("error");
+            if (errorObj != null) {
+        %>
+        <div id="eBox" style="display: block;"><%= errorObj %></div>
+        <% } %>
         <form action="/login" method="POST">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
