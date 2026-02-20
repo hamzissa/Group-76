@@ -53,11 +53,22 @@
 <img src="/images/IBM-Logo.jpg" alt="IBM logo" style="width: 100px; vertical-align: middle;">
     <h1>IBM SkillsBuild Courses</h1>
     <ul>
-        <c:forEach var="course" items="${courses}">
-            <li>
-                <a href="${course.url}" target="_blank">${course.name}</a>
-            </li>
-        </c:forEach>
+       <c:forEach var="course" items="${courses}">
+           <li>
+               <c:url var="startLink" value="/start-course">
+                   <c:param name="url" value="${course.url}" />
+                   <c:param name="name" value="${course.name}" />
+               </c:url>
+
+               <a href="${startLink}">
+                   ${course.name}
+               </a>
+           </li>
+       </c:forEach>
+
+        <li>
+            <a href="/course-progress">View Course Progress</a>
+        </li>
     </ul>
 
 </body>
