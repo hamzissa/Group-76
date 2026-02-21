@@ -1,6 +1,8 @@
 package com.example.group76.controller;
 
 import com.example.group76.model.Course;
+import com.example.group76.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,12 @@ import java.util.ArrayList;
 @Controller
 public class DashboardController {
     @GetMapping("/dashboard")
-    public String showMenu(Model m){
+    public String showMenu(HttpSession session, Model m){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         Course course1 = new Course("Artificial Intelligence",
                 "https://academic.ibm.com/a2mt/downloads/artificial_intelligence#/");
         Course course2 = new Course("Data Science",
