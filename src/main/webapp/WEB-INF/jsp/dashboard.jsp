@@ -69,6 +69,9 @@
         <li>
             <a href="/course-progress">View Course Progress</a>
         </li>
+        <li>
+            <a href="/completion">View Completion History</a>
+        </li>
     </ul>
 
 </body>
