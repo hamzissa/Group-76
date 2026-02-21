@@ -22,7 +22,7 @@ public class LoginController {
 
 		User userAttempt = new User(email, password);
 
-		if ("test@example.com".equals(userAttempt.getEmail()) && "1234".equals(userAttempt.getPasswordHash())) {
+		if ("test@example.com".equals(userAttempt.getEmail()) && "1234".equals(userAttempt.getPassword())) {
 			session.setAttribute("user", userAttempt);
 			return "redirect:/dashboard";
 		} else {
