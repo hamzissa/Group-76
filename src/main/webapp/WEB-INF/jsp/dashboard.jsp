@@ -47,11 +47,25 @@
 
         a:hover {color:  #004499;; }
 
+        .user-info {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <img src="/images/IBM-Logo.jpg" alt="IBM logo" style="width: 100px; vertical-align: middle;">
     <h1>IBM SkillsBuild Courses</h1>
+
+    <div class="user-info">
+        <p>Welcome, ${user.email}!</p>
+        <p>XP: ${user.xp}</p>
+    </div>
+
     <ul>
        <c:forEach var="course" items="${courses}">
            <li>

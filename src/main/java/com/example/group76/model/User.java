@@ -18,12 +18,16 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private String password;
 
+	private int xp;
+
 	public User() {
+		this.xp = 0;
 	}
 
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
+		this.xp = 0;
 	}
 
 	public Long getId() {
@@ -48,5 +52,13 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getXp() {
+		return xp;
+	}
+
+	public void setXp(int xp) {
+		this.xp = xp;
 	}
 }

@@ -2,6 +2,7 @@ package com.example.group76.controller;
 
 import com.example.group76.model.Course;
 import com.example.group76.model.User;
+import com.example.group76.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +13,22 @@ import java.util.ArrayList;
 
 @Controller
 public class DashboardController {
+
+    private final UserRepository userRepository;
+
+    public DashboardController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/dashboard")
     public String showMenu(HttpSession session, Model m){
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
+
+        User currentUser = userRepository.findByEmail(user.getEmail());
+        m.addAttribute("user", currentUser);
 
         Course course1 = new Course("Artificial Intelligence",
                 "https://academic.ibm.com/a2mt/downloads/artificial_intelligence#/");
