@@ -1,5 +1,13 @@
 package com.example.group76.model;
 
 public class CourseFilter {
-    // Placeholder for fields like keyword, category, etc.
+    private String keyword;  // what the user types
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 }

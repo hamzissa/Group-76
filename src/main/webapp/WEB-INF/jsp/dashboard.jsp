@@ -86,6 +86,9 @@
         <li>
             <a href="/completion">View Completion History</a>
         </li>
+        <li>
+            <a href="/search">Search Courses</a>
+        </li>
     </ul>
 
 </body>
