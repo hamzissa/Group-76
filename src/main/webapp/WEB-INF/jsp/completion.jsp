@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>Completion History</title>
+
     <style>
         body{
             margin:0;
@@ -17,7 +17,6 @@
             padding:32px 16px;
             box-sizing:border-box;
         }
-
         .card{
             width:760px;
             max-width:100%;
@@ -40,9 +39,7 @@
         }
         .row{
             display:flex;
-            gap:10px;
             justify-content:space-between;
-            align-items:center;
             padding:14px;
             border-radius:18px;
             background:#f7f9fc;
@@ -51,14 +48,10 @@
         }
         .name{
             font-weight:900;
-            color:#111827;
-            font-size:14px;
         }
         .date{
             font-size:12px;
             color:#6b7280;
-            font-weight:800;
-            white-space:nowrap;
         }
         .empty{
             padding:14px;
@@ -67,7 +60,29 @@
             border:1px solid #fed7aa;
             color:#9a3412;
             font-weight:800;
-            font-size:13px;
+        }
+        .input-row{
+            display:flex;
+            gap:10px;
+            margin-bottom:18px;
+        }
+        .input-row input{
+            flex:1;
+            padding:10px;
+            border-radius:14px;
+            border:1px solid #ddd;
+        }
+        .input-row button{
+            padding:10px 14px;
+            border-radius:14px;
+            border:none;
+            background:#4e73df;
+            color:white;
+            font-weight:800;
+            cursor:pointer;
+        }
+        .input-row button:hover{
+            background:#2e59d9;
         }
         .btn{
             display:inline-block;
@@ -76,18 +91,22 @@
             background:#4e73df;
             color:white;
             font-weight:900;
-            font-size:13px;
             padding:10px 12px;
             border-radius:16px;
         }
-        .btn:hover{ background:#2e59d9; }
     </style>
 </head>
+
 <body>
 <div class="card">
-    <h1>Completion history</h1>
 
+    <h1>Completion History</h1>
     <p class="sub">Completed courses are recorded here.</p>
+
+    <form action="/completion/mark" method="post" class="input-row">
+        <input name="courseName" placeholder="Enter course name" required />
+        <button type="submit">Mark Completed</button>
+    </form>
 
     <c:if test="${empty completions}">
         <div class="empty">No completed courses yet.</div>
@@ -102,12 +121,8 @@
         </c:forEach>
     </c:if>
 
-    <form action="/completion/mark" method="post" style="margin: 0 0 14px;">
-        <input name="courseName" placeholder="Course name…" required />
-        <button type="submit">Mark completed</button>
-    </form>
-
     <a class="btn" href="/dashboard">Back to dashboard</a>
+
 </div>
 </body>
 </html>
