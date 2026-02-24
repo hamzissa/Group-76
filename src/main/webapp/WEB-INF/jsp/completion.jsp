@@ -17,6 +17,7 @@
             padding:32px 16px;
             box-sizing:border-box;
         }
+
         .card{
             width:760px;
             max-width:100%;
@@ -85,6 +86,7 @@
 <body>
 <div class="card">
     <h1>Completion history</h1>
+
     <p class="sub">Completed courses are recorded here.</p>
 
     <c:if test="${empty completions}">
@@ -99,6 +101,11 @@
             </div>
         </c:forEach>
     </c:if>
+
+    <form action="/completion/mark" method="post" style="margin: 0 0 14px;">
+        <input name="courseName" placeholder="Course name…" required />
+        <button type="submit">Mark completed</button>
+    </form>
 
     <a class="btn" href="/dashboard">Back to dashboard</a>
 </div>
