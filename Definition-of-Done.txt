@@ -1,0 +1,16 @@
+Definition of Done (DoD)
+
+1) Acceptance critera completed
+    All acceptance criteria defined for the user story have been implemented. 
+
+2) Functionality works as intended 
+    The feature functions correctly in the application without breaking existing functionality. 
+
+3) Code merged and build successful
+    Code is commited, reviewed an merged into the main branch and the application builds/runs without errors. 
+
+4) Tested
+    Relevant tests are created and are passed successfully
+
+5) Code Quality
+    Code has been reviewed by atleast one team member. 

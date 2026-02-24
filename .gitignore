@@ -1,10 +1,116 @@
-# IntelliJ
-.idea/
-*.iml
-
-# Gradle
+# ===========================================
+# Gradle & Build
+# ===========================================
 .gradle/
 build/
+gradle-app.setting
+*.gradle.bak
+*.lock
 
-# Local data (optional if not shared)
+# ===========================================
+# IDEs
+# ===========================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+*.iml.bak
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# NetBeans
+nbproject/
+*.nbproject
+
+# ===========================================
+# Java & Spring Boot
+# ===========================================
+*.class
+*.jar
+*.war
+*.ear
+*.sar
+*.zip
+*.log
+logs/
+*.pid
+
+# Application properties (environment-specific)
+application-*.properties
+application-*.yml
+application-dev.properties
+application-prod.properties
+
+# ===========================================
+# Database & Data
+# ===========================================
+*.db
+*.h2.db
+*.mv.db
+*.sqlite
 data/
+
+# ===========================================
+# Operating System
+# ===========================================
+.DS_Store
+Thumbs.db
+.directory
+*.swp
+*.swo
+*~
+.~*
+._*
+
+# ===========================================
+# Maven (if used)
+# ===========================================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+# ===========================================
+# Node.js (if used)
+# ===========================================
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# ===========================================
+# Temp & Cache Files
+# ===========================================
+tmp/
+temp/
+*.tmp
+*.temp
+.cache/
+*.bak
+*.backup
+.DS_Store
+
+# ===========================================
+# Testing
+# ===========================================
+test-results/
+coverage/
+.jacoco
+
+# ===========================================
+# Miscellaneous
+# ===========================================
+.env
+.env.local
+secrets/
