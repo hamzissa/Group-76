@@ -55,6 +55,39 @@
             margin-bottom: 20px;
             text-align: center;
         }
+        .badge-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .badge-thumbnail {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .badge-thumbnail:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+        .badge-thumbnail.earned {
+            opacity: 1;
+        }
+        .view-all-badges {
+            display: block;
+            margin-top: 15px;
+            color: #667eea;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .view-all-badges:hover {
+            color: #764ba2;
+        }
     </style>
 </head>
 <body>
@@ -63,7 +96,18 @@
 
     <div class="user-info">
         <p>Welcome, ${user.email}!</p>
-        <p>XP: ${user.xp}</p>
+        <p style="font-size: 20px; color: #667eea; font-weight: bold;">⭐ XP: ${user.xp}</p>
+        
+        <div class="badge-preview">
+            <c:forEach var="badge" items="${earnedBadges}">
+                <img src="${badge.imagePath}" alt="${badge.name}" class="badge-thumbnail earned" title="${badge.name}">
+            </c:forEach>
+            <c:forEach var="badge" items="${unearnedBadges}" begin="0" end="2">
+                <img src="${badge.imagePath}" alt="${badge.name}" class="badge-thumbnail" title="${badge.name} - Unlock at ${badge.requiredXp} XP">
+            </c:forEach>
+        </div>
+        
+        <a href="/badges" class="view-all-badges">🏆 View All Badges →</a>
     </div>
 
     <ul>
