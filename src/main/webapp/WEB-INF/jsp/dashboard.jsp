@@ -89,6 +89,9 @@
         <li>
             <a href="/search">Search Courses</a>
         </li>
+        <li>
+            <a href="/leaderboard">Global Leaderboard</a>
+        </li>
     </ul>
 
 </body>
