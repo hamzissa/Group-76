@@ -133,6 +133,9 @@
         <li>
             <a href="/search">Search Courses</a>
         </li>
+        <li>
+            <a href="/leaderboard">Leaderboard</a>
+        </li>
     </ul>
 
 </body>
