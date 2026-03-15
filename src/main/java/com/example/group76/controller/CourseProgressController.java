@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 public class CourseProgressController {
@@ -78,12 +79,17 @@ public class CourseProgressController {
 
         progress.complete();
 
-        CourseCompletion cc = new CourseCompletion(
-                userInSession.getEmail(),
-                progress.getCourseName(),
-                LocalDateTime.now()
-        );
-        completionRepo.save(cc);
+        Optional<CourseCompletion> existing =
+                completionRepo.findByUserEmailAndCourseName(userInSession.getEmail(), progress.getCourseName());
+
+        if (existing.isEmpty()) {
+            CourseCompletion cc = new CourseCompletion(
+                    userInSession.getEmail(),
+                    progress.getCourseName(),
+                    LocalDateTime.now()
+            );
+            completionRepo.save(cc);
+        }
 
         User user = userRepository.findByEmail(userInSession.getEmail());
         if (user != null) {
@@ -92,7 +98,7 @@ public class CourseProgressController {
             session.setAttribute("user", user);
         }
 
-        return "redirect:/completion";
+        return "redirect:/completion?success=courseCompleted";
     }
 
     @GetMapping("/start-course")

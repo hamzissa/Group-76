@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <title>IBM SkillsBuild Dashboard</title>
     <style>
-        body { font-family: "Times New Roman", Arial, sans-serif;
+        body {
+            font-family: "Times New Roman", Arial, sans-serif;
             background-color: cornflowerblue;
             margin: 0;
             padding: 40px;
@@ -14,39 +15,41 @@
             flex-direction: column;
             align-items: center;
         }
-        h1 { text-align: center;
+        h1 {
+            text-align: center;
             color: #333;
             margin-bottom: 30px;
         }
-        ul { max-width: 500px;
+        ul {
+            max-width: 500px;
             margin: 20px auto;
             padding: 0;
             list-style: none;
             width: 100%;
         }
-
-        li { background: white;
+        li {
+            background: white;
             margin: 10px 0;
             padding: 12px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         li:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 10px rgba(0,0,0,0.15);
         }
-        a { text-decoration: none;
+        a {
+            text-decoration: none;
             color: #0066cc;
             font-weight: 500;
             font-size: 18px;
             display: block;
             padding: 15px 20px;
         }
-
-        a:hover {color:  #004499;; }
-
+        a:hover {
+            color: #004499;
+        }
         .user-info {
             background: white;
             padding: 15px 20px;
@@ -54,6 +57,8 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
             text-align: center;
+            width: 100%;
+            max-width: 760px;
         }
         .badge-preview {
             display: grid;
@@ -88,6 +93,45 @@
         .view-all-badges:hover {
             color: #764ba2;
         }
+        .reviews-panel {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 760px;
+        }
+        .reviews-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .review-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #f8fafc;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .review-course {
+            font-weight: bold;
+            color: #111827;
+        }
+        .review-stars {
+            color: #d97706;
+            margin: 4px 0;
+            font-size: 18px;
+        }
+        .review-comment {
+            color: #374151;
+        }
+        .review-meta {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
     </style>
 </head>
 <body>
@@ -97,7 +141,7 @@
     <div class="user-info">
         <p>Welcome, ${user.email}!</p>
         <p style="font-size: 20px; color: #667eea; font-weight: bold;">⭐ XP: ${user.xp}</p>
-        
+
         <div class="badge-preview">
             <c:forEach var="badge" items="${earnedBadges}">
                 <img src="${badge.imagePath}" alt="${badge.name}" class="badge-thumbnail earned" title="${badge.name}">
@@ -106,8 +150,27 @@
                 <img src="${badge.imagePath}" alt="${badge.name}" class="badge-thumbnail" title="${badge.name} - Unlock at ${badge.requiredXp} XP">
             </c:forEach>
         </div>
-        
+
         <a href="/badges" class="view-all-badges">🏆 View All Badges →</a>
+    </div>
+
+    <div class="reviews-panel">
+        <div class="reviews-title">Recent Reviews</div>
+
+        <c:if test="${empty recentReviews}">
+            <div>No reviews yet.</div>
+        </c:if>
+
+        <c:if test="${not empty recentReviews}">
+            <c:forEach var="review" items="${recentReviews}">
+                <div class="review-item">
+                    <div class="review-course">${review.courseName}</div>
+                    <div class="review-stars">${review.stars}</div>
+                    <div class="review-comment">${review.comment}</div>
+                    <div class="review-meta">Completed on ${review.formattedCompletedAt}</div>
+                </div>
+            </c:forEach>
+        </c:if>
     </div>
 
     <ul>

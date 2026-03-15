@@ -2,27 +2,33 @@ package com.example.group76.controller;
 
 import com.example.group76.model.Badge;
 import com.example.group76.model.Course;
+import com.example.group76.model.CourseCompletion;
 import com.example.group76.model.User;
 import com.example.group76.repository.BadgeRepository;
+import com.example.group76.repository.CourseCompletionRepository;
 import com.example.group76.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
 
 @Controller
 public class DashboardController {
 
     private final UserRepository userRepository;
     private final BadgeRepository badgeRepository;
+    private final CourseCompletionRepository completionRepository;
 
-    public DashboardController(UserRepository userRepository, BadgeRepository badgeRepository) {
+    public DashboardController(UserRepository userRepository,
+                               BadgeRepository badgeRepository,
+                               CourseCompletionRepository completionRepository) {
         this.userRepository = userRepository;
         this.badgeRepository = badgeRepository;
+        this.completionRepository = completionRepository;
     }
 
     @GetMapping("/dashboard")
@@ -61,7 +67,14 @@ public class DashboardController {
         courses.add(course4);
 
         m.addAttribute("courses", courses);
+
+        List<CourseCompletion> recentReviews = completionRepository.findByRatingIsNotNullOrderByCompletedAtDesc()
+                .stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        m.addAttribute("recentReviews", recentReviews);
+
         return "dashboard";
     }
-
 }
