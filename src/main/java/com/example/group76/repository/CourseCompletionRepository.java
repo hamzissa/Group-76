@@ -3,6 +3,7 @@ package com.example.group76.repository;
 import com.example.group76.model.CourseCompletion;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,12 @@ public interface CourseCompletionRepository extends JpaRepository<CourseCompleti
     List<CourseCompletion> findByRatingIsNotNullOrderByCompletedAtDesc();
 
     List<CourseCompletion> findByCourseNameAndRatingIsNotNull(String courseName);
+
+    long countByUserEmail(String userEmail);
+
+    long countByUserEmailAndCompletedAtGreaterThanEqualAndCompletedAtLessThanEqual(
+            String userEmail,
+            LocalDateTime start,
+            LocalDateTime end
+    );
 }

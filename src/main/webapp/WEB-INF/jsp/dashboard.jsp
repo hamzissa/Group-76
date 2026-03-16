@@ -132,6 +132,45 @@
             color: #6b7280;
             margin-top: 6px;
         }
+        .goal-panel {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 760px;
+        }
+        .goal-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .goal-bar-bg {
+            background-color: #e5e7eb;
+            height: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .goal-bar-fill {
+            background: linear-gradient(90deg, #5ba360, #76c77a);
+            height: 100%;
+            width: 0%;
+        }
+        .goal-status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .goal-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: #4a81bd;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -153,6 +192,37 @@
 
         <a href="/badges" class="view-all-badges">🏆 View All Badges →</a>
     </div>
+
+    <c:if test="${not empty activeGoal}">
+        <div class="goal-panel">
+            <div class="goal-title">🎯 Current Goal Progress</div>
+            <div>${activeGoal.completedCount} / ${activeGoal.target} Courses Completed</div>
+
+            <div class="goal-bar-bg">
+                <div class="goal-bar-fill"
+                     id="dashboardGoalBar"
+                     data-comp="${activeGoal.completedCount}"
+                     data-total="${activeGoal.target}">
+                </div>
+            </div>
+
+            <div class="goal-status">
+                <c:choose>
+                    <c:when test="${dashboardDeadlinePassed && activeGoal.completedCount < activeGoal.target}">
+                        Deadline passed — set a new goal.
+                    </c:when>
+                    <c:when test="${activeGoal.completedCount >= activeGoal.target}">
+                        Goal achieved! 🎉
+                    </c:when>
+                    <c:otherwise>
+                        Keep going — you're making progress.
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <a href="/goalTracker" class="goal-link">View Goal Tracker →</a>
+        </div>
+    </c:if>
 
     <div class="reviews-panel">
         <div class="reviews-title">Recent Reviews</div>
@@ -203,6 +273,19 @@
             <a href="/goalTracker">Goal Tracker</a>
         </li>
     </ul>
+
+<script>
+    var dashboardBar = document.getElementById("dashboardGoalBar");
+    if (dashboardBar) {
+        var comp = parseFloat(dashboardBar.getAttribute("data-comp")) || 0;
+        var total = parseFloat(dashboardBar.getAttribute("data-total")) || 0;
+        var pct = total > 0 ? (comp / total) * 100 : 0;
+        if (pct > 100) {
+            pct = 100;
+        }
+        dashboardBar.style.width = pct + "%";
+    }
+</script>
 
 </body>
 </html>
