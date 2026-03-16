@@ -199,6 +199,9 @@
         <li>
             <a href="/leaderboard">Leaderboard</a>
         </li>
+        <li>
+            <a href="/goalTracker">Goal Tracker</a>
+        </li>
     </ul>
 
 </body>
