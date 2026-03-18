@@ -2,6 +2,8 @@ package com.example.group76.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +21,23 @@ public class User implements Serializable {
 	private String password;
 
 	private int xp;
+
+	@ManyToMany
+	@JoinTable(
+			name = "Friends_List",
+			joinColumns = @JoinColumn(name = "person_id"),
+			inverseJoinColumns = @JoinColumn(name = "friend_id")
+	)
+
+	private List<User> friends = new ArrayList<>();
+
+	public List<User> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<User> friends) {
+		this.friends = friends;
+	}
 
 	public User() {
 		this.xp = 0;
