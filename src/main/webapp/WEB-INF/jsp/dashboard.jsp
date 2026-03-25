@@ -272,6 +272,9 @@
         <li>
             <a href="/goalTracker">Goal Tracker</a>
         </li>
+        <li>
+            <a href="/popular-courses">Popular Courses</a>
+        </li>
     </ul>
 
 <script>
