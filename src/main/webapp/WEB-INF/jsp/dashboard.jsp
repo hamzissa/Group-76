@@ -5,181 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <title>IBM SkillsBuild Dashboard</title>
-    <style>
-        body {
-            font-family: "Times New Roman", Arial, sans-serif;
-            background-color: cornflowerblue;
-            margin: 0;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        ul {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 0;
-            list-style: none;
-            width: 100%;
-        }
-        li {
-            background: white;
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        li:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
-        }
-        a {
-            text-decoration: none;
-            color: #0066cc;
-            font-weight: 500;
-            font-size: 18px;
-            display: block;
-            padding: 15px 20px;
-        }
-        a:hover {
-            color: #004499;
-        }
-        .user-info {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
-            max-width: 760px;
-        }
-        .badge-preview {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-        .badge-thumbnail {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto;
-            opacity: 0.7;
-            transition: opacity 0.3s;
-        }
-        .badge-thumbnail:hover {
-            opacity: 1;
-            cursor: pointer;
-        }
-        .badge-thumbnail.earned {
-            opacity: 1;
-        }
-        .view-all-badges {
-            display: block;
-            margin-top: 15px;
-            color: #667eea;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .view-all-badges:hover {
-            color: #764ba2;
-        }
-        .reviews-panel {
-            background: white;
-            padding: 18px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 760px;
-        }
-        .reviews-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #333;
-        }
-        .review-item {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            background: #f8fafc;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-        .review-course {
-            font-weight: bold;
-            color: #111827;
-        }
-        .review-stars {
-            color: #d97706;
-            margin: 4px 0;
-            font-size: 18px;
-        }
-        .review-comment {
-            color: #374151;
-        }
-        .review-meta {
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 6px;
-        }
-        .goal-panel {
-            background: white;
-            padding: 18px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 760px;
-        }
-        .goal-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #333;
-        }
-        .goal-bar-bg {
-            background-color: #e5e7eb;
-            height: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .goal-bar-fill {
-            background: linear-gradient(90deg, #5ba360, #76c77a);
-            height: 100%;
-            width: 0%;
-        }
-        .goal-status {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        .goal-link {
-            display: inline-block;
-            margin-top: 12px;
-            color: #4a81bd;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<img src="/images/IBM-Logo.jpg" alt="IBM logo" style="width: 100px; vertical-align: middle;">
+<nav class="topbar">
+    <img src="/images/IBM-Logo.jpg" alt="IBM logo">
+    <h1>IBM SkillsBuild Courses</h1>
+    <div class="topbar-actions">
+        <a class="btn btn-ghost" href="/friends/find">Find Friends</a>
+    </div>
+</nav>
     <h1>IBM SkillsBuild Courses</h1>
 
-    <div class="user-info">
-        <p>Welcome, ${user.email}!</p>
-        <p style="font-size: 20px; color: #667eea; font-weight: bold;">⭐ XP: ${user.xp}</p>
+<div class="page-wrapper">
+    <div class="user-info-card">
+        <div>
+            <div class="email">Welcome back,</div>
+            <div style="font-size:1.1rem; font-weight:600;">${user.email}</div>
+        </div>
+        <span class="xp-badge">${user.xp} XP</span>
+    </div>
 
         <div class="badge-preview">
             <c:forEach var="badge" items="${earnedBadges}">
@@ -243,19 +88,17 @@
         </c:if>
     </div>
 
-    <ul>
-       <c:forEach var="course" items="${courses}">
-           <li>
-               <c:url var="startLink" value="/start-course">
-                   <c:param name="url" value="${course.url}" />
-                   <c:param name="name" value="${course.name}" />
-               </c:url>
-
-               <a href="${startLink}">
-                   ${course.name}
-               </a>
-           </li>
-       </c:forEach>
+<p class="section-label">Courses</p>
+<ul class="course-list">
+    <c:forEach var="course" items="${courses}">
+        <li>
+            <c:url var="startLink" value="/start-course">
+                <c:param name="url" value="${course.url}"/>
+                <c:param name="name" value="${course.name}"/>
+            </c:url>
+            <a href="${startLink}">${course.name}</a>
+        </li>
+    </c:forEach>
 
         <li>
             <a href="/course-progress">View Course Progress</a>
@@ -274,6 +117,9 @@
         </li>
         <li>
             <a href="/popular-courses">Popular Courses</a>
+        </li>
+        <li>
+            <a href="/friends/list">View My Friends</a>
         </li>
     </ul>
 
