@@ -27,6 +27,7 @@ public class Badge {
 	public Badge() {
 	}
 
+	// Constructor to create a new badge with all details
 	public Badge(String name, String description, int requiredXp, String icon, String imagePath) {
 		this.name = name;
 		this.description = description;

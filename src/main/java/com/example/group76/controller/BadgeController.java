@@ -29,12 +29,17 @@ public class BadgeController {
 			return "redirect:/login";
 		}
 
+		// get current XP
 		User currentUser = userRepository.findByEmail(user.getEmail());
+		
+		// get all badges sorted by XP requirement
 		List<Badge> allBadges = badgeRepository.findAllByOrderByRequiredXpAsc();
 		
+		// Create two separate lists for earned and unearned badges
 		List<Badge> earnedBadges = new ArrayList<>();
 		List<Badge> unearnedBadges = new ArrayList<>();
 
+		// Loop through all badges and sort them based on user's XP
 		for (Badge badge : allBadges) {
 			if (currentUser.getXp() >= badge.getRequiredXp()) {
 				earnedBadges.add(badge);
