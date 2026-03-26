@@ -37,4 +37,13 @@ public class LoginController {
 			return "login";
 		}
 	}
+    // ---------- New method for session-safe dashboard access ----------
+    @GetMapping("/dashboardSafe")
+    public String dashboardSafe(HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login"; // session missing → force login
+        }
+        return "redirect:/dashboard";   // session exists → go to actual dashboard
+    }
 }
+
