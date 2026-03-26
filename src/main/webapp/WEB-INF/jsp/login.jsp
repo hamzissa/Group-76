@@ -4,96 +4,128 @@
 <head>
 <meta charset="UTF-8">
 <title>IBM SkillsBuild Login</title>
+<link rel="stylesheet" href="/css/styles.css">
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
     body {
-        background-color: #333c4d; 
-        font-family: "Segoe UI", Arial, sans-serif;
-        height: 100vh;
-        width: 100vw;
+        background: linear-gradient(135deg, #001141 0%, #1a3a6b 60%, #2d5a9c 100%);
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
         overflow: hidden;
+        padding: 2rem;
     }
 
-    .hero-text {
+    body::before {
+        content: '';
         position: absolute;
-        top: 40px;
-        left: 40px;
-        text-align: left;
-        max-width: 400px;
+        top: -50%;
+        right: -20%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(15, 98, 254, 0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: float 20s infinite ease-in-out;
+    }
+
+    body::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -15%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(15, 98, 254, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: float 15s infinite ease-in-out reverse;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(-30px, 30px); }
+    }
+
+    .login-container {
+        display: flex;
+        gap: 4rem;
+        max-width: 1100px;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+    }
+
+    .hero-section {
+        flex: 1;
+        color: white;
     }
 
     .ibm-badge {
         display: inline-block;
-        background-color: #0062ff;
+        background-color: var(--ibm-blue);
         color: white;
-        padding: 4px 12px;
+        padding: 0.4rem 1rem;
         border-radius: 4px;
-        font-size: 14px;
-        font-weight: bold;
-        margin-bottom: 15px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
     }
 
-    .hero-text h1 {
-        font-size: 32px;
-        color: #ffffff;
-        margin-bottom: 10px;
+    .hero-section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
         line-height: 1.2;
         font-weight: 600;
     }
 
-    .hero-text p {
-        color: #cccccc;
-        font-size: 14px;
+    .hero-section p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
         line-height: 1.6;
+        max-width: 400px;
     }
 
-    .card {
-        width: 560px;
-        padding: 60px;
-        border-radius: 25px;
-        background: #ffffff;
+    .login-card {
+        flex: 0 0 460px;
+        background: var(--ibm-white);
+        border-radius: var(--radius-lg);
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        z-index: 10;
-        position: relative;
+        padding: 2.5rem;
     }
 
-    h2 {
+    .login-card h2 {
         text-align: left;
-        margin-bottom: 30px;
-        color: #0062ff; 
-        font-size: 24px;
+        margin-bottom: 1.5rem;
+        color: var(--ibm-navy);
+        font-size: 1.75rem;
         font-weight: 600;
     }
 
     .input-group {
         position: relative;
-        margin-bottom: 20px;
+        margin-bottom: 1.25rem;
     }
 
-    input {
+    .input-group input {
         width: 100%;
-        padding: 14px 20px;
-        border-radius: 10px; 
-        border: 1px solid #dddddd;
-        background: #ffffff;
-        font-size: 16px;
-        color: #333;
-        transition: border-color 0.2s;
+        padding: 0.875rem 1rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--ibm-gray-20);
+        background: var(--ibm-white);
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 0.95rem;
+        color: var(--ibm-gray-80);
+        transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    input:focus {
+    .input-group input:focus {
         outline: none;
-        border-color: #0062ff;
+        border-color: var(--ibm-blue);
+        box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.15);
     }
 
     .toggle {
@@ -102,61 +134,89 @@
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
-        display: flex;
-        color: #0062ff;
+        color: var(--ibm-blue);
     }
 
     .toggle svg {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         fill: currentColor;
     }
 
-    button {
+    .login-card button {
         width: 100%;
-        padding: 16px;
-        border-radius: 10px; 
+        padding: 0.875rem;
+        border-radius: var(--radius-sm);
         border: none;
-        background: #0070d2; 
-        color: #ffffff;
-        font-size: 16px;
-        font-weight: bold;
-        margin-top: 10px;
+        background: var(--ibm-blue);
+        color: white;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-top: 0.5rem;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: background 0.15s, transform 0.1s;
     }
 
-    button:hover {
-        background: #005fb2;
+    .login-card button:hover {
+        background: var(--ibm-blue-dark);
+    }
+
+    .login-card button:active {
+        transform: scale(0.98);
     }
 
     .switch-container {
         display: flex;
-        justify-content: flex-end;
-        margin-top: 25px;
-        font-size: 14px;
-        color: #666;
+        justify-content: center;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+        color: var(--ibm-gray-60);
     }
 
     .switch-container a {
-        color: #0062ff; 
+        color: var(--ibm-blue);
         text-decoration: none;
         cursor: pointer;
-        font-weight: bold;
-        margin-left: 5px;
+        font-weight: 600;
+        margin-left: 0.25rem;
+    }
+
+    .switch-container a:hover {
+        text-decoration: underline;
     }
 
     #strengthLabel {
         display: none;
-        font-size: 14px;
-        font-weight: bold;
-        margin-bottom: 8px;
-        margin-top: -10px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: -0.5rem;
         opacity: 0;
         transition: opacity 0.3s ease;
     }
 
-    .hidden { display: none; }
+    .hidden { 
+        display: none; 
+    }
+
+    @media (max-width: 900px) {
+        .login-container {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .hero-section {
+            text-align: center;
+        }
+        .hero-section p {
+            max-width: 100%;
+        }
+        .login-card {
+            flex: 1;
+            width: 100%;
+            max-width: 460px;
+        }
+    }
 </style>
 
 <script>
@@ -211,57 +271,59 @@ function checkPasswordStrength() {
 
 <body>
 
-    <div class="hero-text">
-        <div class="ibm-badge">IBM SkillsBuild</div>
-        <h1>Welcome to SkillsBuild</h1>
-        <p>Design is a layer to improve the high-end experience for the user. Explore your potential with world-class digital skills.</p>
-    </div>
-
-    <div class="card">
-        <div id="loginForm">
-            <h2>Login</h2>
-            <form action="/login" method="POST">
-                <div class="input-group">
-                    <input type="email" name="email" placeholder="Email address" required>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="loginPassword" name="password" placeholder="Password" required>
-                    <span class="toggle" onclick="toggleIcon('loginPassword', this)">
-                        <script>document.write(eyeIcon);</script>
-                    </span>
-                </div>
-                <button type="submit">Sign in</button>
-            </form>
-            <div class="switch-container">
-                <span>New here? <a onclick="showRegister()">Register</a></span>
-            </div>
+    <div class="login-container">
+        <div class="hero-section">
+            <div class="ibm-badge">IBM SkillsBuild</div>
+            <h1>Welcome to SkillsBuild</h1>
+            <p>Design is a layer to improve the high-end experience for the user. Explore your potential with world-class digital skills.</p>
         </div>
 
-        <div id="registerForm" class="hidden">
-            <h2>Register</h2>
-            <form action="/register" method="POST">
-                <div class="input-group">
-                    <input type="email" name="email" placeholder="Email address" required>
+        <div class="login-card">
+            <div id="loginForm">
+                <h2>Login</h2>
+                <form action="/login" method="POST">
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="Email address" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+                        <span class="toggle" onclick="toggleIcon('loginPassword', this)">
+                            <script>document.write(eyeIcon);</script>
+                        </span>
+                    </div>
+                    <button type="submit">Sign in</button>
+                </form>
+                <div class="switch-container">
+                    <span>New here?<a onclick="showRegister()">Register</a></span>
                 </div>
+            </div>
 
-                <span id="strengthLabel"></span>
+            <div id="registerForm" class="hidden">
+                <h2>Register</h2>
+                <form action="/register" method="POST">
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="Email address" required>
+                    </div>
 
-                <div class="input-group">
-                    <input type="password" id="regPassword" name="password" placeholder="Password" oninput="checkPasswordStrength()" required>
-                    <span class="toggle" onclick="toggleIcon('regPassword', this)">
-                        <script>document.write(eyeIcon);</script>
-                    </span>
+                    <span id="strengthLabel"></span>
+
+                    <div class="input-group">
+                        <input type="password" id="regPassword" name="password" placeholder="Password" oninput="checkPasswordStrength()" required>
+                        <span class="toggle" onclick="toggleIcon('regPassword', this)">
+                            <script>document.write(eyeIcon);</script>
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirmPassword" name="confirm" placeholder="Confirm password" required>
+                        <span class="toggle" onclick="toggleIcon('confirmPassword', this)">
+                            <script>document.write(eyeIcon);</script>
+                        </span>
+                    </div>
+                    <button type="submit">Create account</button>
+                </form>
+                <div class="switch-container">
+                    <span>Already a member?<a onclick="showLogin()">Login</a></span>
                 </div>
-                <div class="input-group">
-                    <input type="password" id="confirmPassword" name="confirm" placeholder="Confirm password" required>
-                    <span class="toggle" onclick="toggleIcon('confirmPassword', this)">
-                        <script>document.write(eyeIcon);</script>
-                    </span>
-                </div>
-                <button type="submit">Create account</button>
-            </form>
-            <div class="switch-container">
-                <span>Already a member? <a onclick="showLogin()">Login</a></span>
             </div>
         </div>
     </div>
