@@ -1,93 +1,176 @@
-# Group-76
+# Group 76: IBM SkillsBuild Learning Tracker
 
+A Spring Boot web app that helps students find, start and track **IBM SkillsBuild** courses. Students register and log in, browse and search the course catalogue, time how long they spend on a course, record completed courses, and earn XP for each one they finish.
 
+Built by Group 76 for module CO2303 at the University of Leicester.
+
+## Features
+
+| Feature | What it does | Route(s) |
+|---|---|---|
+| **Register & log in** | Create an account with email and password, then sign in. The user is stored in the HTTP session. | `GET/POST /login`, `POST /register` |
+| **Dashboard** | Shows the logged-in user's email and XP, lists the IBM SkillsBuild courses, and links to the other pages. | `GET /dashboard` |
+| **Start a course** | Clicking a course on the dashboard starts its progress timer and redirects to the course on IBM's site. | `GET /start-course?url=…&name=…` |
+| **Course progress** | Start, pause, resume and complete the current course. A live timer and progress bar show time spent against a 1-hour estimate. | `GET /course-progress`, `POST /course-progress/{start,pause,resume,complete}` |
+| **Earn XP** | Completing a course from the progress page records the completion and awards **100 XP**. | `POST /course-progress/complete` |
+| **Completion history** | Lists the user's completed courses, newest first. A course can also be marked completed by name (this simulates the IBM integration). | `GET /completion`, `POST /completion/mark` |
+| **Search courses** | Filters the course catalogue by keyword (case-insensitive match on the course name). | `GET/POST /search` |
+
+All pages except login and register redirect to `/login` when nobody is logged in.
+
+### Course catalogue
+
+The catalogue is currently hard-coded in `DashboardController` and `SearchController`:
+
+- Artificial Intelligence
+- Data Science
+- Security
+- Quantum Computing
+
+## Tech stack
+
+- **Java 21**
+- **Spring Boot 3.4.2**: Spring Web MVC and Spring Data JPA
+- **JSP + JSTL** views, served by embedded Tomcat (Jasper)
+- **H2** in-memory database (a MySQL connector is also on the classpath but isn't configured)
+- **Gradle 8.10** through the included wrapper; the project is packaged as a WAR
 
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Prerequisites
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- JDK 21
+- No separate Gradle install is needed because the project includes the Gradle wrapper.
 
-## Add your files
+### Run the app
 
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+```bash
+# macOS / Linux
+./gradlew bootRun
+
+# Windows
+gradlew.bat bootRun
+```
+
+Then open <http://localhost:8080/login>.
+
+### Test account
+
+On startup the app creates a test user:
+
+| Email | Password |
+|---|---|
+| `test@example.com` | `1234` |
+
+The database is in memory (`jdbc:h2:mem:testdb`, `ddl-auto=create-drop`), so every restart wipes all registered users, completions and XP.
+
+### H2 console
+
+The H2 web console is enabled at <http://localhost:8080/h2-console>. Connect with:
+
+- JDBC URL: `jdbc:h2:mem:testdb`
+- Username: `sa`
+- Password: *(leave blank)*
+
+### Build and test
+
+```bash
+./gradlew build   # compile, run tests, and package the WAR
+./gradlew test    # run tests only (JUnit 5)
+```
+
+## Project structure
 
 ```
-cd existing_repo
-git remote add origin https://campus.cs.le.ac.uk/gitlab/co2303_2026/Group-76.git
-git branch -M main
-git push -uf origin main
+src/main/java/com/example/group76/
+├── Group76Application.java          # Entry point; creates the test user
+├── controller/
+│   ├── LoginController.java         # /login
+│   ├── RegisterController.java      # /register
+│   ├── DashboardController.java     # /dashboard and the course list
+│   ├── CourseProgressController.java# /course-progress/*, /start-course, awards XP
+│   ├── CompletionController.java    # /completion, /completion/mark
+│   └── SearchController.java        # /search
+├── model/
+│   ├── User.java                    # JPA entity (users): email, password, xp
+│   ├── CourseCompletion.java        # JPA entity (course_completions)
+│   ├── CourseProgress.java          # In-memory timer and status state machine
+│   ├── Course.java                  # Course name and URL
+│   └── CourseFilter.java            # Search keyword
+├── repository/
+│   ├── UserRepository.java
+│   └── CourseCompletionRepository.java
+└── service/
+    └── CourseSearchService.java     # Keyword filtering
+
+src/main/resources/application.properties   # H2, JPA, JSP view and port config
+src/main/webapp/WEB-INF/jsp/                 # login, dashboard, courseProgress, completion, searchResults
+src/main/webapp/images/                      # IBM logo
+data/setup.sql                               # Early draft of the users table schema (unused by the app)
 ```
 
-## Integrate with your tools
+### Course progress states
 
-* [Set up project integrations](https://campus.cs.le.ac.uk/gitlab/co2303_2026/Group-76/-/settings/integrations)
+`CourseProgress` moves through these states:
 
-## Collaborate with your team
+```
+NOT_STARTED --start--> IN_PROGRESS --pause--> PAUSED --resume--> IN_PROGRESS
+                            \                    /
+                             `---- complete ----'--> COMPLETED
+```
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+Time spent builds up while the course is `IN_PROGRESS`. The progress percentage is time spent divided by the estimated 3600 seconds, capped at 100%.
 
-## Test and Deploy
+## User stories
 
-Use the built-in continuous integration in GitLab.
+| Story | Owner | User story |
+|---|---|---|
+| Earn XP | Hamzah | As a student, I want to earn XP when I complete a course so that my progress feels rewarding. |
+| Login and register | Dwain | As a user, I want to register and log in so that I can have a personalised experience. |
+| View dashboard | George | As a student, I want to view a list of all available IBM SkillsBuild courses so that I can be directed to and start new learning courses. |
+| Record completion | Rayn | As a student, I want the app to record when I complete an IBM SkillsBuild course so that I can view a history of my learning. |
+| Record start times | Vinay | As a student, I want the app to record when I begin an IBM SkillsBuild course so that I can pause and resume courses. |
+| Search and filter | Shamim | As a student, I want to search and filter IBM SkillsBuild courses by keywords and categories so that I can quickly find courses relevant to my interests. |
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+The original stories are in [`User stories`](User%20stories).
 
-***
+## Definition of Done
 
-# Editing this README
+A story is done when:
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+1. All of its acceptance criteria are implemented.
+2. It works as intended without breaking existing functionality.
+3. The code is committed, reviewed and merged into `main`, and the app builds and runs without errors.
+4. Relevant tests are written and pass.
+5. At least one other team member has reviewed the code.
 
-## Suggestions for a good README
+The full text is in [`Definition-of-Done.txt`](Definition-of-Done.txt).
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Known limitations
 
-## Name
-Choose a self-explaining name for your project.
+- **Missing register view:** `RegisterController` returns a `register` view, but no `register.jsp` exists. A successful registration works because it renders `login`. A failed registration (for example, passwords that don't match) tries to render the missing view and errors instead of showing the message.
+- **Shared progress state:** `CourseProgressController` keeps one `CourseProgress` object for the whole app, so every logged-in user sees and controls the same timer.
+- **Plain-text passwords:** passwords are stored and compared without hashing.
+- **No persistence:** the H2 database is in memory and cleared on every restart.
+- **No root page:** nothing is mapped to `/`, so start at `/login`.
+- **Search by name only:** search matches keywords against course names. Category filtering isn't implemented yet.
+- **No tests yet:** the project has no `src/test` directory.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Team
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+| Name | Username |
+|---|---|
+| Hamzah | hi69 |
+| Dwain | djt33 |
+| George | gco5 |
+| Rayn | rs879 |
+| Vinay | vp207 |
+| Shamim | sm1309 |
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Git setup notes for the campus GitLab are in [`intelji`](intelji). In short:
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. Create a branch from `main` for your user story.
+2. Commit your work and open a merge request.
+3. Have at least one teammate review it before merging (see the Definition of Done).
